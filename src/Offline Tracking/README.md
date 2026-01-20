@@ -8,7 +8,7 @@ This provides a brief description of all the files inside the **Offline Tracking
 
 Inside the folder **+function**,
 
-3) *colorMasks####* : HSV chromatic mask generated using Color Thresholder app. 
+3) *colorMasks_####* : HSV chromatic mask generated using Color Thresholder app. 
 
 4) *cam_properties* : Adjusted camera properties (brightness, saturation, contrast etc.,). 
 
