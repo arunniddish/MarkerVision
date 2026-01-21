@@ -34,6 +34,8 @@ The markers should be vibrantly visible now dominating the environment. If you a
 
 <ins>Step 7</ins>: Finally, use these values to setup the camera properties while initializing the camera for capturing the video stream.
 
+
+
 ## B. Generating Chromatic Mask (See Section III-B)
 
 From the captured video, a frame is extracted for creating the chromatic mask. 
