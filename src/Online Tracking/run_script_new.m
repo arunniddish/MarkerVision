@@ -78,7 +78,10 @@ while true
         end
         
     end
-send(Q,	
+plot_data.img = newim;
+plot_data.centroids = robo_centroid; 
+plot_data.marker_centroid = PrevPt; 
+send(Q, plot_data);
 end
 
 
