@@ -4,7 +4,6 @@
 % Last modified date: 2024-MM-DD
 % Description: Briefly describe what this script does.
 % Inputs:
-%
 % 2) "vid_name"     : Video's name with the extension to be
 %                     tracked.
 % 
@@ -19,6 +18,10 @@
 % 1) "tracking_data" : Centroid data (x,y,z) of the respective markers on the robot,
 %                      global rotation and translation matrix; body
 %                      rotation and translation matrix.
+% Dependencies:
+% 1) "OnlineTracking.m" : Class for performing online tracking.
+%
+% 2) "parfeval(@getFrameFromCamera,...)" : Parallel processing for capturing frames using the function @getFrameFromCamera
 %
 % The data are in the following order:
 % 1 to 3 [1x3] Marker 1 [x,y,z]
