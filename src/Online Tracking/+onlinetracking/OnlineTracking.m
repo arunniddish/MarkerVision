@@ -208,6 +208,14 @@ classdef OnlineTracking
             %Plot quiver
             %             plot(obj.robo_centroid(k,1),1080-obj.robo_centroid(k,2),40*cos(obj.robo_rotated),10*sin(obj.robo_rotated),'LineWidth',2,'Color',"#D95319");
 
+            % Plot Quiver - Coordinate system of the robot
+            rot_val = pi/2;
+            u = L*cos(obj.theta_curr(1)+rot_val);
+            v = L*sin(obj.theta_curr(1)+rot_val);
+            u_bar = L*cos(obj.theta_curr(1)+rot_val+pi/2);
+            v_bar = L*sin(obj.theta_curr(1)+rot_val+pi/2);
+            quiver(centroid_x,centroid_y,u,v,'LineWidth',1.7,'Color','b','MaxHeadSize',0.7);
+            quiver(centroid_x,centroid_y,u_bar,v_bar,'LineWidth',1.7,'Color','g','MaxHeadSize',0.7);
 
             % Bounding box
             % for ii = 1:size(obj.obstaclesBB,1)
