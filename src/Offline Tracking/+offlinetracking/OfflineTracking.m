@@ -41,6 +41,10 @@ classdef OfflineTracking
         
         % Overall centroid of the robot
         robot_centroid;
+
+        theta_curr;
+
+        overlay;
         
         % Bounding box plotted over the marker
         thisBB;
@@ -96,7 +100,7 @@ classdef OfflineTracking
 
             for k = 1:obj.numberOfFrames
                 thisFrame = read(obj.vread,k);
-                newim = createMaskBluePurple(thisFrame);
+                newim = createMask(thisFrame);
                 newim = bwareaopen(newim,25);
                 newim = imfill(newim, 'holes');
                 [labeledImage, numberOfRegions] = bwlabel(newim);
@@ -131,7 +135,7 @@ classdef OfflineTracking
                     [Rot,T] = pose_estimation(obj,obj.CurrPt,obj.PrevPt);
                     theta(k,:) = reshape(Rot,[1,9]);
                     trans(k,:) = T';
-                    obj.theta_curr = obj.theta_curr + rotm2eul(R);
+                    obj.theta_curr = obj.theta_curr + rotm2eul(Rot);
 
                     [Rot,T] = pose_estimation(obj,obj.P0,obj.CurrPt);
                     theta_G(k,:) = reshape(Rot,[1,9]);
@@ -311,12 +315,13 @@ classdef OfflineTracking
 
             % Plot Quiver - Coordinate system of the robot
             rot_val = pi/2;
+            L = 100;
             u = L*cos(obj.theta_curr(1)+rot_val);
             v = L*sin(obj.theta_curr(1)+rot_val);
             u_bar = L*cos(obj.theta_curr(1)+rot_val+pi/2);
             v_bar = L*sin(obj.theta_curr(1)+rot_val+pi/2);
-            quiver(centroid_x,centroid_y,u,v,'LineWidth',1.7,'Color','b','MaxHeadSize',0.7);
-            quiver(centroid_x,centroid_y,u_bar,v_bar,'LineWidth',1.7,'Color','g','MaxHeadSize',0.7);
+            quiver(obj.robot_centroid(k,1),obj.robot_centroid(k,2),u,v,'LineWidth',1.7,'Color','b','MaxHeadSize',0.7);
+            quiver(obj.robot_centroid(k,1),obj.robot_centroid(k,2),u_bar,v_bar,'LineWidth',1.7,'Color','g','MaxHeadSize',0.7);
 
             caption = sprintf('%d blobs found in frame #%d 0f %d', count, k, obj.numberOfFrames);
             title(caption, 'FontSize', 20);
