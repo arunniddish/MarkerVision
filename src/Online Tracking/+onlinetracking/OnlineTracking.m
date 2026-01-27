@@ -97,8 +97,6 @@ classdef OnlineTracking
             obj.PrevPt = PrevPt;
             obj.P0 = P0;
             obj.robo_centroid = robo_centroid;
-            % obj.trajectory_position = trajectory_position;
-            %                 thisFrame = read(obj.vread,k);
             newim = createMaskhdblue(thisFrame);
             newim = bwareaopen(newim,25);
             newim = imfill(newim, 'holes');

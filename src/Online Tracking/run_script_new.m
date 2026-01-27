@@ -42,6 +42,10 @@ clc;
 vid_name = 'demo_video.mp4'; % Raw video data after configuring camera properties
 output_vid_filename = 'demo_video_gcf.mp4'; % Final tracked video
 
+% Initalize object to write tracked video frames
+params.vwrite_tracked = VideoWriter(output_vid_filename,'MPEG-4');
+open(params.vwrite_tracked);
+
 % Tracking parameters
 params.number_of_markers = 4;
 
@@ -60,9 +64,37 @@ choose_cam_prop = menu("Adjust Camera properties",'Yes','No');
 if choose_cam_prop == 1
     cam = camera_properties_marker_1920_Blue(cam);
     cam.Resolution = '1920x1080';
-    pause(2);
+    pause(4);
 end
 
+% Check 1st frame for marker visibility
+if choose_cam == 1
+    first_frame = snapshot(cam);
+    first_frame = createMaskhdblue(first_frame);
+    first_frame = bwareaopen(first_frame,25);
+    first_frame = imfill(first_frame, 'holes');
+    [labeledImage, numberOfRegions] = bwlabel(first_frame);
+    figure;
+    imshow(first_frame);
+    title('Check marker visibility. Press any key to continue');
+
+    if numberOfRegions < params.number_of_markers
+        disp('Not all markers are visible and segmented.!! Adjust camera position and properties');
+        error('Exiting script');
+    end
+
+    if numberOfRegions > params.number_of_markers
+        disp('More markers are visible than expected.!! Adjust camera position and properties');
+        error('Exiting script');
+    end
+
+    if numberOfRegions == params.number_of_markers
+        disp('All markers are visible and segmented. Proceeding with tracking if you think these are the intended markers.');
+    end
+    pause;
+end
+
+close all;
 clear cam;
 
 pause(2);
@@ -104,7 +136,7 @@ while true
         newim = cam_data.img;
         ts = cam_data.time_stamp;
         idx = idx + 1;
-        [output_data] = tracker_obj.tracking(newim,PrevPt,P0,robo_centroid,trajectory_position,idx);
+        [output_data] = tracker_obj.tracking(newim,PrevPt,P0,robo_centroid,idx);
         tracking_data(idx,:) = [output_data.tracking_data(idx,:) ts];
         PrevPt = reshape(output_data.tracking_data(idx,1:12),[3,4])';
         robo_centroid = output_data.robo_centroid;
