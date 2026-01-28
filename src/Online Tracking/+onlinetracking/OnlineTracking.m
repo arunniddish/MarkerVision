@@ -158,6 +158,7 @@ classdef OnlineTracking
                 [Rot,T] = pose_estimation(obj,obj.CurrPt,obj.PrevPt,k);
                 theta(k,:) = reshape(Rot,[1,9]);
                 trans(k,:) = T';
+								obj.robot_rotated = rotm2eul(Rot);
                 
                 [Rot,T] = pose_estimation(obj,obj.P0,obj.CurrPt,k);
                 theta_G(k,:) = reshape(Rot,[1,9]);
@@ -168,7 +169,6 @@ classdef OnlineTracking
 
                 obj.robot_centroid(k,:) = [mean(obj.PrevPt(:,1)) mean(obj.PrevPt(:,2))];
                 output.robot_centroid = obj.robot_centroid;
-                obj.robot_rotated = rotm2eul(Rot);
                 obj.theta_curr = obj.theta_curr + obj.robot_rotated;
                 output.theta_curr = obj.theta_curr;
                 plot(obj,thisFrame,count,k);
