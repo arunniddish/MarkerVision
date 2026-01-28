@@ -13,6 +13,7 @@
 % Dependencies:
 % 1) createMaskXXXX.m
 % 2) rigid_transform_3D.m
+% 3) getFrameFromCamera.m
 %=============================================================================
 
 classdef OnlineTracking
@@ -69,7 +70,7 @@ classdef OnlineTracking
 
         function obj = OnlineTracking(params)
 
-            % OnlineTracking - Constructor for the class OfflineTracking
+            % OnlineTracking - Constructor for the class OnlineTracking
             %
             % Syntax: obj = OnlineTracking(input1)
             %
@@ -84,24 +85,29 @@ classdef OnlineTracking
             obj.P0 = [];
             obj.CurrPt = [];
             obj.cent = [];
-            obj.tracking_data_centroid = [];  % Added
-            %             obj.vread = params.vread;
-            % obj.numberOfFrames = 1;
             obj.vwrite = params.vwrite_tracked;
-            % obj.centroids = zeros(obj.numberOfFrames,3*obj.number_of_markers);
-            %             obj.overlay_image = params.overlay_img_cut;
+            % obj.overlay_image = params.overlay_img_cut;
             % obj.overlay = params.overlay;
-            % obj.stop_radius = params.stop_radius;
-            % obj.target_position = params.target_position;
-            % obj.obstaclesBB = params.obstaclesBB;
-            obj.robot_centroid = [];
-            % obj.trajectory_position = [];
-            % obj.pixel_to_cm = params.pixel_to_cm;
+            obj.robot_centroid = [];        
             obj.theta_curr = [];
             obj.robot_rotated = [];
         end
 
         function [output] = tracking(obj,thisFrame,PrevPt,P0,robot_centroid,theta_curr,k)
+
+            % tracking - Computes a value based on input data
+            %
+            % Syntax: tracking_data = tracking(obj)
+            %
+            % Outputs:
+            %    output - Data structure containing centroids of each marker on all the frames,
+            %             overall centroid of the robot on all the frames,
+            %             current orientation of the robot on all the frames,
+            %             rotation and translation of the robot in both
+            %             global and body frame on all the frames,
+            %             and other parameters such as points in previous
+            %             frame, initial points, etc.
+            
 
             obj.PrevPt = PrevPt;
             obj.P0 = P0;
@@ -207,20 +213,19 @@ classdef OnlineTracking
             val = isempty(index);  % Checking whether the index is empty
 
             if(val == 0)
-                centroids = occlusion(obj,index);   %Change the name of the centroid ->
+                centroids = occlusion(obj,index);   
             end
             if(val~=0)
-                centroids = obj.CurrPt;       %Change the name of the centroid ->
+                centroids = obj.CurrPt;       
             end
 
         end
 
-        function centroids = occlusion(obj,index)   %Change the name of the centroid ->
+        function centroids = occlusion(obj,index)   
             newPrevPt = obj.PrevPt;
             newP0 = obj.P0;
             newPrevPt(index(1:size(index,1)),:) = 0;
             newP0(index(1:size(index,1)),:) = 0;
-            %             [Rot,T,~,~] = pose_estimation(newPrevPt,obj.CurrPt); % SE2 w.r.t previous frame
             [Rot,T] = pose_estimation(obj,newPrevPt,obj.CurrPt); % SE2 w.r.t previous frame
             for gg = 1:size(index,1)
                 newPt = Rot*(obj.PrevPt(index(gg),:))' + T;
@@ -241,7 +246,7 @@ classdef OnlineTracking
         function [Rot,T,theta,trans] = pose_estimation(obj,A,B,k)
 
             [Rot,T] = functions.rigid_transform_3D(A',B');  % SE2 w.r.t previous frame
-            %             theta(k,:) = reshape(Rot,[1,9]);   % Changed ANM
+            %             theta(k,:) = reshape(Rot,[1,9]);   
             %             trans(k,:) = T';
 
         end

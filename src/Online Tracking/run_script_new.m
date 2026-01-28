@@ -22,6 +22,10 @@
 % 1) "OnlineTracking.m" : Class for performing online tracking.
 %
 % 2) "parfeval(@getFrameFromCamera,...)" : Parallel processing for capturing frames using the function @getFrameFromCamera
+% 
+% 3) "camera_properties_marker_1920_Blue.m" : Function to set camera properties for easily segmenting blue markers at 1920x1080 resolution.
+%
+% 4) "createMaskhdblue.m" : Function to create binary mask for segmenting blue markers at 1920x1080 resolution.
 %
 % The data are in the following order:
 % 1 to 3 [1x3] Marker 1 [x,y,z]
@@ -142,7 +146,7 @@ parpool('local',1); % It is better if number of pools opened is equal to number 
 %[] Initialize --> Pollable Data Queue-(P)
 P = parallel.pool.PollableDataQueue;
 
-%f = parfeval(@getFrameFromCamera,0,P,L,distortion,vid_name);  % Uncomment and use this if you have distortion parameters. Also uncomment in @getFrameFromCamera
+%f_1 = parfeval(@getFrameFromCamera,0,P,L,distortion,vid_name);  % Uncomment and use this if you have distortion parameters. Also uncomment in @getFrameFromCamera
 f_1 = parfeval(@getFrameFromCamera, 0, P, vid_name);
 
 pause(2);
