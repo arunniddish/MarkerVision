@@ -126,7 +126,8 @@ classdef OfflineTracking
                     obj.P0 = obj.cent;
                     obj.PrevPt = obj.cent;
                     obj.centroids = data_logging(obj,k);
-                    obj.theta_curr = 0;
+										obj.robot_rotated = zeros(1,3);
+                    obj.theta_curr = zeros(1,3);
                     plot(obj,thisFrame,count,k);
                 end
 
@@ -136,7 +137,7 @@ classdef OfflineTracking
                     [Rot,T] = pose_estimation(obj,obj.CurrPt,obj.PrevPt);
                     theta(k,:) = reshape(Rot,[1,9]);
                     trans(k,:) = T';
-                    obj.theta_curr = obj.theta_curr + rotm2eul(Rot);
+                    obj.robot_rotated = rotm2eul(Rot);
 
                     [Rot,T] = pose_estimation(obj,obj.P0,obj.CurrPt);
                     theta_G(k,:) = reshape(Rot,[1,9]);
@@ -144,6 +145,7 @@ classdef OfflineTracking
 
                     obj.PrevPt = obj.CurrPt;
                     obj.centroids = data_logging(obj,k);
+										obj.theta_curr = obj.theta_curr + obj.robot_rotated;
 
                     plot(obj,thisFrame,count,k);
 
