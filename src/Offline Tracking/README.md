@@ -8,14 +8,18 @@ This provides a brief description of all the files inside the **Offline Tracking
 
 Inside the folder **functions**,
 
-3) *colorMasks_####.m* : HSV chromatic mask generated using Color Thresholder app. 
+3) *createMask_1.m* : HSV chromatic mask generated using Color Thresholder app. This mask is specifically made for video *demo_1.mp4* (in folder **demos**). 
 
-4) *cam_properties.m* : Adjusted camera properties (brightness, saturation, contrast etc.,). 
+4) *createMask_2.m* : HSV chromatic mask generated using Color Thresholder app. This mask is specifically made for *demo_2.mp4* (in folder **demos**).
+  
+5) *createMask_3.m* : HSV chromatic mask generated using Color Thresholder app. This mask is specifically made for *demo_3.mp4* (in folder **demos**).
 
-5) *cameraParams.mat* : Correction for lens distortion.
+6) *cam_properties_marker_1920_Blue.m* : Adjusted camera properties (brightness, saturation, contrast etc.,). 
 
-6) *rigid_transform_3D.m* : Arun's algorithm
+7) *cameraParams.mat* : Correction for lens distortion.
+
+8) *rigid_transform_3D.m* : Arun's algorithm
 
 Inside the folder **+offlinetracking**,
 
-7) *OfflineTracking.m* : This is the class containing all the algorithm for performing offline tracking.
+9) *OfflineTracking.m* : This is the class containing all the algorithm for performing offline tracking.
