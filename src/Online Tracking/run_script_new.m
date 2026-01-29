@@ -27,7 +27,7 @@
 %
 % 4) "createMaskhdblue.m" : Function to create binary mask for segmenting blue markers at 1920x1080 resolution.
 %
-% The data for 4 markers are in the following order:
+% The data for 4 markers looks like this in the following order:
 % 1 to 3 [1x3] Marker 1 [x,y,z]
 % 4 to 6 [1x3] Marker 2 [x,y,z]
 % 7 to 9 [1x3] Marker 3 [x,y,z]
@@ -51,7 +51,7 @@ params.vwrite_tracked = VideoWriter(output_vid_filename,'MPEG-4');
 open(params.vwrite_tracked);
 
 % Tracking parameters
-params.number_of_markers = 6;
+params.number_of_markers = 6;  % Change based on number of markers
 
 % Choose overlay image (Yes/No - 1/0)
 params.overlay = 0;

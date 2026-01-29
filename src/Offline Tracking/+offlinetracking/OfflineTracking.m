@@ -14,6 +14,7 @@
 % 1) createMaskXXXX.m
 % 2) rigid_transform_3D.m
 %==========================================================================
+
 classdef OfflineTracking
 
     % MyClass - Brief description of the class
@@ -45,7 +46,7 @@ classdef OfflineTracking
         % Current orientation of the robot
         theta_curr;
 
-        overlay;
+        %overlay;
         
         % Bounding box plotted over the marker
         thisBB;
@@ -58,6 +59,9 @@ classdef OfflineTracking
         
         % Variable holding properies of animated video 
         vwrite;
+
+        % Robot rotated in the current frame
+        robot_rotated;
 
     end
 
@@ -82,12 +86,14 @@ classdef OfflineTracking
             obj.cent = [];
             obj.robot_centroid = [];
             obj.theta_curr = [];  % Added now for plotting quiver
+            obj.robot_rotated = [];
             obj.vread = params.vread;
             obj.numberOfFrames = obj.vread.NumberOfFrame;
             obj.vwrite = params.vwrite;
             obj.centroids = zeros(obj.numberOfFrames,3*obj.number_of_markers);
-            obj.overlay = params.overlay;
-            obj.thisBB = [];
+            % obj.overlay = params.overlay;
+            % obj.thisBB = [];
+
         end
 
         function [tracking_data] = tracking(obj)
@@ -117,7 +123,7 @@ classdef OfflineTracking
                     obj.thisBB(count,:) = stats(rb).BoundingBox;
                 end
 
-                obj.robot_centroid(k,:) = [mean(obj.cent(:,1)) 1080-mean(obj.cent(:,2))];   
+               % obj.robot_centroid(k,:) = [mean(obj.cent(:,1)) 1080-mean(obj.cent(:,2))];   
 
                 zc = zeros(size(obj.cent,1),1);
                 obj.cent = [obj.cent,zc];
@@ -126,7 +132,12 @@ classdef OfflineTracking
                     obj.P0 = obj.cent;
                     obj.PrevPt = obj.cent;
                     obj.centroids = data_logging(obj,k);
-										obj.robot_rotated = zeros(1,3);
+                    theta = zeros(1,9);
+                    trans = zeros(1,3);
+                    theta_G = zeros(1,9);
+                    trans_G = zeros(1,3);
+                    obj.robot_centroid(k,:) = [mean(obj.PrevPt(:,1)) mean(obj.PrevPt(:,2))];
+					obj.robot_rotated = zeros(1,3);
                     obj.theta_curr = zeros(1,3);
                     plot(obj,thisFrame,count,k);
                 end
@@ -145,8 +156,8 @@ classdef OfflineTracking
 
                     obj.PrevPt = obj.CurrPt;
                     obj.centroids = data_logging(obj,k);
-										obj.theta_curr = obj.theta_curr + obj.robot_rotated;
-
+                    obj.robot_centroid(k,:) = [mean(obj.PrevPt(:,1)) mean(obj.PrevPt(:,2))];
+					obj.theta_curr = obj.theta_curr + obj.robot_rotated;
                     plot(obj,thisFrame,count,k);
 
                 end
@@ -197,8 +208,7 @@ classdef OfflineTracking
                 end
             end
 
-            %             clear d;   % !! Please check whether this line is
-            %                             necessary before deleting
+            clear d;   
 
             TF = obj.CurrPt(:,1);  % Writing the 1st column of resrvd
             index = find(TF == 0);  % Finding those rows which is empty
@@ -284,6 +294,7 @@ classdef OfflineTracking
         end
 
         function plot(obj,thisFrame,count,k)
+
             % plot - Plot the centroid and bounding box over the current frame image
             %        and writes the image to .mp4 file to create an
             %        animation movie.
@@ -299,9 +310,9 @@ classdef OfflineTracking
             % Outputs:
             %    figure
 
-            figure(1)
+            figure(10)
             imshow(thisFrame)
-            set(gcf, 'Position',  [100, 100, 1000, 1000])
+            set(gcf, 'Position',  [100, 100, 1080, 1080])
             hold on
 
             %Plot centroid of the markers
@@ -321,9 +332,9 @@ classdef OfflineTracking
             L = 100;
             u = L*cos(obj.theta_curr(1) + rot_val);
             v = L*sin(obj.theta_curr(1) + rot_val);
-            u_bar = L*cos(obj.theta_curr(1)+rot_val - pi/2);
-            v_bar = L*sin(obj.theta_curr(1)+rot_val - pi/2);
-            quiver(obj.robot_centroid(k,1),1080 - obj.robot_centroid(k,2),u,v,'LineWidth',1.7,'Color','b','MaxHeadSize',0.7);
+            u_bar = L*cos(obj.theta_curr(1)+ rot_val - pi/2);
+            v_bar = L*sin(obj.theta_curr(1)+ rot_val - pi/2);
+            quiver(obj.robot_centroid(k,1),1080 - obj.robot_centroid(k,2),u,v,'LineWidth',1.7,'Color','m','MaxHeadSize',0.7);
             quiver(obj.robot_centroid(k,1),1080 - obj.robot_centroid(k,2),u_bar,v_bar,'LineWidth',1.7,'Color','g','MaxHeadSize',0.7);
 
             caption = sprintf('%d blobs found in frame #%d 0f %d', count, k, obj.numberOfFrames);
