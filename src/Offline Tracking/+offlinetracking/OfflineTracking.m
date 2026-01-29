@@ -107,8 +107,8 @@ classdef OfflineTracking
 
             for k = 1:obj.numberOfFrames
                 thisFrame = read(obj.vread,k);
-                newim = createMask(thisFrame);
-                newim = bwareaopen(newim,25);
+                newim = functions.createMask_2(thisFrame);
+                newim = bwareaopen(newim,20);
                 newim = imfill(newim, 'holes');
                 [labeledImage, numberOfRegions] = bwlabel(newim);
 
@@ -289,7 +289,7 @@ classdef OfflineTracking
             %    T   - Translation matrix (3X1) computed from the centroid
             %          data of 2 frames 'A' & 'B'
 
-            [Rot,T] = rigid_transform_3D(A',B');  % SE2 w.r.t previous frame
+            [Rot,T] = functions.rigid_transform_3D(A',B');  % SE2 w.r.t previous frame
 
         end
 
@@ -319,7 +319,7 @@ classdef OfflineTracking
             plot(obj.PrevPt(:,1),1080-obj.PrevPt(:,2),'g*','LineWidth',2,'MarkerSize',3)
 
             %Plot centroid and trajectory of the robot
-            plot(obj.robot_centroid(:,1),obj.robot_centroid(:,2),'c*','LineWidth',1,'MarkerSize',1)
+            plot(obj.robot_centroid(:,1),1080 - obj.robot_centroid(:,2),'c*','LineWidth',1,'MarkerSize',1)
 
             %Plot Bounding Box
             %              for ii = 1:size(obj.thisBB,1)
@@ -337,7 +337,7 @@ classdef OfflineTracking
             quiver(obj.robot_centroid(k,1),1080 - obj.robot_centroid(k,2),u,v,'LineWidth',1.7,'Color','m','MaxHeadSize',0.7);
             quiver(obj.robot_centroid(k,1),1080 - obj.robot_centroid(k,2),u_bar,v_bar,'LineWidth',1.7,'Color','g','MaxHeadSize',0.7);
             
-            orientation_overlay = sprintf('Orientation: %d degree', obj.theta_curr);
+            orientation_overlay = sprintf('Orientation: %d degree', rad2deg(obj.theta_curr(1)));
             text(50, 50, orientation_overlay , 'Color', 'yellow', 'FontSize', 20);
 
             caption = sprintf('%d blobs found in frame #%d 0f %d', count, k, obj.numberOfFrames);

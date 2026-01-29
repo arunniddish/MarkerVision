@@ -40,10 +40,13 @@ clc;
 % addpath('../');
 
 % Video file information
-input_vid_dir = 'demos';
-vid_name = 'demo_1.mp4';
-input_vid_filename = fullfile(input_vid_dir,vid_name);
-output_vid_filename = 'demo_1_gcf.mp4';
+input_vid_dir = 'demos';   % File directory
+input_vid_name = 'demo_2.mp4';  % File name
+input_vid_filename = fullfile(input_vid_dir,input_vid_name);
+
+output_vid_dir = 'demos_tracked';
+output_vid_name = 'demo_2_gcf.mp4';
+output_vid_filename = fullfile(output_vid_dir,output_vid_name);
 
 % Instantiate a video objects for this video.
 params.vread = VideoReader(input_vid_filename);
@@ -51,13 +54,13 @@ params.vwrite = VideoWriter(output_vid_filename,'MPEG-4');
 open(params.vwrite);
 
 % Tracking parameters
-params.number_of_markers = 4;   % Change this according to the number of markers used
+params.number_of_markers = 8;   % Change this according to the number of markers used
 
 % Choose overlay image (Yes/No - 1/0)
 params.overlay = 0;
 
 % Initilaize
-tracker_obj = OfflineTracking(params);
+tracker_obj = offlinetracking.OfflineTracking(params);
 
 % Call tracking function 
 [output_data] =  tracker_obj.tracking();
