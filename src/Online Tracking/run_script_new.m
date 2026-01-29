@@ -155,6 +155,8 @@ pause(2);
 
 idx = 0;
 
+try
+
 while true
 
     if P.QueueLength > 0
@@ -175,5 +177,12 @@ while true
         end
 
     end
+
+end
+
+catch ME
+
+    fprintf('An error occurred, or code stopped by user \n');
+    delete(gcp('nocreate'));
 
 end
