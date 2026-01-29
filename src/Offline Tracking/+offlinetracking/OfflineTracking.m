@@ -336,6 +336,9 @@ classdef OfflineTracking
             v_bar = L*sin(obj.theta_curr(1)+ rot_val - pi/2);
             quiver(obj.robot_centroid(k,1),1080 - obj.robot_centroid(k,2),u,v,'LineWidth',1.7,'Color','m','MaxHeadSize',0.7);
             quiver(obj.robot_centroid(k,1),1080 - obj.robot_centroid(k,2),u_bar,v_bar,'LineWidth',1.7,'Color','g','MaxHeadSize',0.7);
+            
+            orientation_overlay = sprintf('Orientation: %d degree', obj.theta_curr);
+            text(50, 50, orientation_overlay , 'Color', 'yellow', 'FontSize', 20);
 
             caption = sprintf('%d blobs found in frame #%d 0f %d', count, k, obj.numberOfFrames);
             title(caption, 'FontSize', 20);
