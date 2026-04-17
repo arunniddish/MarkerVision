@@ -4,7 +4,8 @@ This readme helps in navigating through the paper where more in depth details ar
 
 1) Initial camera setup: Adjusting the camera properties for tracking using MATLAB ToolBox
 2) Generating Chromatic Mask: In MATLAB how do we use the Toolbox to create a color mask. Here we use HSV color space.
-3) Parallel Processing: Initializing parallel processing using MATLAB ToolBox
+3) Parallel Processing: Initializing parallel processing using MATLAB ToolBox.
+4) Marker Indexing: Explanation for main algorithms used - Nearest Neighbor, Clutters, Occlusion, and Reconstruction
 
 ## A. Initial camera setup (See Section III-A)
 
@@ -79,6 +80,16 @@ Parallel processing is utilized when implementing Online Tracking (See Section I
 
 <ins>Step 2</ins>: *parpool(local,n)* line in the code initiates and starts parallel processing with **n** workers. 
 
+## D. Marker Indexing
+
+A significant challenge encountered in tracking is the stochastic nature of the labeling process, the integer indices assigned during labeling are not inherently persistent across consecutive frames. This is mitigated by the following algorithms:
+
+1) Nearest Neighbor:
+2) Clutters:
+
+
+4) Occlusion:
+5) Reconstruction:
 
 
 
