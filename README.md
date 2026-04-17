@@ -85,7 +85,7 @@ Parallel processing is utilized when implementing Online Tracking (See Section I
 A significant challenge encountered in tracking is the stochastic nature of the labeling process, the integer indices assigned during labeling are not inherently persistent across consecutive frames. This is mitigated by the following algorithms:
 
 1) Nearest Neighbor:
-2) Clutters:
+# 2) Clutters:
    This is a case where the number of segments identified is more than the number of markers. The aim is to identify the markers and remove the outliers.
    
    ![Alt text](images/noise_new_bg.png)
