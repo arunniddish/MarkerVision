@@ -92,6 +92,7 @@ A significant challenge encountered in tracking is the stochastic nature of the 
    ![Alt text](images/occlusion_new_bg.png)
    
 6) Reconstruction:
+   ![Alt text](images/Reconstruction_potrait_bg.png)
 
 
 
