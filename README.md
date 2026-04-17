@@ -89,7 +89,7 @@ A significant challenge encountered in tracking is the stochastic nature of the 
    ![Alt text](images/noise_new_bg.png)
 
 4) Occlusion:
-   ![Alt text](images/occlusion_new_bg.PNG)
+   ![Alt text](images/occlusion_new_bg.png)
    
 6) Reconstruction:
 
