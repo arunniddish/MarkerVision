@@ -86,10 +86,10 @@ A significant challenge encountered in tracking is the stochastic nature of the 
 
 1) Nearest Neighbor:
 2) Clutters:
-   ![Alt text](images/noise_new.png)
+   ![Alt text](images/noise_new_bg.png)
 
 4) Occlusion:
-   ![Alt text](images/binary_HSV.PNG)
+   ![Alt text](images/occlusion_new_bg.PNG)
    
 6) Reconstruction:
 
