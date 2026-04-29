@@ -85,17 +85,21 @@ Parallel processing is utilized when implementing Online Tracking (See Section I
 A significant challenge encountered in tracking is the stochastic nature of the labeling process, the integer indices assigned during labeling are not inherently persistent across consecutive frames. This is mitigated by the following algorithms:
 
 **1) Nearest Neighbor:**
+
 **2) Clutters:**
+
    This is a case where the number of segments identified is more than the number of markers. The aim is to identify the markers and remove the outliers.
    
    ![Alt text](images/noise_new_bg.png)
 
 **4) Occlusion:**
+
    This is a case where the number of segments identified is less than the number of markers. The aim is to identify the indices of missing markers. 
    
    ![Alt text](images/occlusion_new_bg.png)
    
 **7) Reconstruction:**
+
    The identified indices of missing markers are reconstructed by pruning the respective marker index from the previous frame to maintain homogenity and calculating transformation matrix (R) and translation (T) to reconstruct the missing markers. 
    
    ![Alt text](images/Reconstruction_potrait_bg.png)
